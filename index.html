@@ -80,13 +80,15 @@ body{background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--text
 .ch-act:hover{border-color:var(--accent);color:var(--accent)}
 .ch-act.danger:hover{border-color:#E05555;color:#E05555}
 
-.ch-grid{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:7px}
-@media(min-width:480px){.ch-grid{grid-template-columns:repeat(auto-fill,minmax(58px,1fr))}}
+.ch-grid{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
+@media(min-width:480px){.ch-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}}
 
-.ch-btn{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--border-l);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;font-size:15px;font-weight:500;color:var(--text);box-shadow:0 1px 6px rgba(97,59,142,.05);font-family:'Noto Sans KR',sans-serif;position:relative}
-.ch-btn:hover{border-color:var(--accent-l);color:var(--accent);transform:translateY(-1px)}
-.ch-btn.done{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(97,59,142,.3)}
-.ch-btn.done::after{content:'✓';position:absolute;bottom:3px;right:4px;font-size:9px;opacity:.7}
+.ch-item{display:flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--border-l);border-radius:10px;padding:8px 10px;box-shadow:0 1px 6px rgba(97,59,142,.05);transition:border-color .15s}
+.ch-item:hover{border-color:var(--accent-l)}
+.ch-check{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border);background:white;cursor:pointer;flex-shrink:0;font-size:11px;color:transparent;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:'Noto Sans KR',sans-serif}
+.ch-check.done{background:var(--accent);border-color:var(--accent);color:white}
+.ch-num{flex:1;text-align:center;font-size:14px;font-weight:500;color:var(--accent);text-decoration:none;font-family:'Noto Sans KR',sans-serif}
+.ch-num:hover{text-decoration:underline}
 
 /* FOOTER */
 .footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:11px 20px;padding-bottom:max(11px,env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:150}
@@ -318,17 +320,19 @@ function renderChapters(){
   const b = BOOKS.find(x=>x.num===curBook);
   document.getElementById("chGrid").innerHTML =
     Array.from({length:b.ch},(_,i)=>
-      `<button class="ch-btn${state[curBook][i]?' done':''}" onclick="toggleCh(${i})">${i+1}</button>`
+      `<div class="ch-item">
+        <button class="ch-check${state[curBook][i]?' done':''}" onclick="toggleCh(${i})" title="읽음 표시">✓</button>
+        <a class="ch-num" href="https://wol.jw.org/wol/finder?wtlocale=KO&bible-book=${parseInt(curBook)}&bible-chapter=${i+1}" target="_blank">${i+1}장</a>
+      </div>`
     ).join("");
 }
 
 function toggleCh(i){
   state[curBook][i] = !state[curBook][i];
   saveState();
-  const btns = document.querySelectorAll(".ch-btn");
-  btns[i].classList.toggle("done", state[curBook][i]);
+  const checks = document.querySelectorAll(".ch-check");
+  checks[i].classList.toggle("done", state[curBook][i]);
   document.getElementById("chDoneLbl").textContent = doneCh(curBook);
-  document.getElementById("wolLink").href=`https://wol.jw.org/wol/finder?wtlocale=KO&bible-book=${parseInt(curBook)}&bible-chapter=${i+1}`;
   updateProgress();
 }
 
