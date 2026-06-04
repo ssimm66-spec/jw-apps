@@ -289,7 +289,7 @@ function renderBooks(){
               <div class="book-name">${b.n}</div>
               <div class="book-ch-sub">${done}/${b.ch}장</div>
             </div>
-            <a class="ext-btn" href="https://www.jw.org/finder?wtlocale=KO&prefer=app&bible-book=${parseInt(b.num)}&bible-chapter=1"
+            <a class="ext-btn" href="https://wol.jw.org/ko/wol/b/r8/lp-ko/nwtsty/${parseInt(b.num)}/1"
                target="_blank" rel="noopener" onclick="event.stopPropagation()" title="WOL에서 읽기">
               <svg viewBox="0 0 16 16"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3"/><polyline points="10 3 13 3 13 6"/><line x1="7" y1="9" x2="13" y2="3"/></svg>
             </a>
@@ -311,7 +311,7 @@ function openBook(num){
   document.getElementById("hdrText").innerHTML=
     `<div class="ch-hdr-book">${b.n}</div>
      <div class="ch-hdr-sub">${b.ch}장 · <span id="chDoneLbl">${doneCh(num)}</span>장 완독</div>`;
-  document.getElementById("wolLink").href=`https://www.jw.org/finder?wtlocale=KO&prefer=app&bible-book=${parseInt(num)}&bible-chapter=1`;
+  document.getElementById("wolLink").href=`https://wol.jw.org/ko/wol/b/r8/lp-ko/nwtsty/${parseInt(num)}/1`;
   document.getElementById("wolLink").onclick = null;
   renderChapters();
 }
@@ -322,7 +322,7 @@ function renderChapters(){
     Array.from({length:b.ch},(_,i)=>
       `<div class="ch-item">
         <button class="ch-check${state[curBook][i]?' done':''}" onclick="toggleCh(${i})" title="읽음 표시">✓</button>
-        <a class="ch-num" href="https://www.jw.org/finder?wtlocale=KO&prefer=app&bible-book=${parseInt(curBook)}&bible-chapter=${i+1}" target="_blank">${i+1}장</a>
+        <a class="ch-num" href="https://wol.jw.org/ko/wol/b/r8/lp-ko/nwtsty/${parseInt(curBook)}/${i+1}" target="_blank">${i+1}장</a>
       </div>`
     ).join("");
 }
